@@ -1,0 +1,27 @@
+# .gitignore of MAESTRO. Author: Marc Becker
+
+# Secrets and machine-specific settings (template: app/includes/config.local.example.php)
+app/includes/config.local.php
+
+# The landing page of maestro-lab.science shares this web root on the hosted
+# instance, but is not part of the repository: the repository holds the studio.
+/index.php
+/landing/
+/favicon.ico
+/.htaccess
+/DESIGN.md
+
+# Private notes of the hosted instance (server, deployment)
+/PRODUCTION-NOTES.md
+
+# Relay job files, should RELAY_JOB_DIR ever point into the tree
+.relay_jobs/
+
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Node (the tests and the relay need no packages; a local install must not be committed)
+node_modules/

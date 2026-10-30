@@ -1,0 +1,5 @@
+# .htaccess of app/relay (Apache). Author: Marc Becker
+#
+# The relay runs as its own service (server.js) and starts worker.php on the
+# command line. Nothing in this folder is meant to be fetched over HTTP.
+Require all denied

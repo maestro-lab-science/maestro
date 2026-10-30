@@ -1,0 +1,11 @@
+# .htaccess of app/assets (Apache). Author: Marc Becker
+#
+# The app's scripts and styles are updated in place with every deployment, and
+# the chat's ES modules import each other without version tags. Make browsers
+# revalidate them on every load (a cheap 304 when unchanged), so a deployment
+# is never mixed with a cached older file. Fonts and images may stay cached.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|mjs|css)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>

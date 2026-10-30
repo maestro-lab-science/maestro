@@ -1,0 +1,15 @@
+{
+  "name": "maestro",
+  "private": true,
+  "description": "MAESTRO — scripted team chats with a live director, for research. The browser code is plain ES modules (no build step); this file only lets Node run the unit tests and the WebSocket relay.",
+  "author": "Marc Becker",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test app/tests",
+    "relay": "node app/relay/server.js"
+  }
+}

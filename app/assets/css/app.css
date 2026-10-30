@@ -1,0 +1,446 @@
+/* app.css — MAESTRO's shared design system (every page loads it first).
+   Role colors are the heart of the app: everyone in the chat has a color set
+   per project (default: the participant YELLOW and the trio BLUE, GREEN,
+   RED). Message rows carry their role's colors as custom properties
+   (--role-color / --role-soft / --role-deep / --role-text, see js/app.js),
+   so one rule set styles any team.
+   Author: Marc Becker */
+
+:root {
+  /* Brand + participant palette (accent = avatars/labels, soft = bubbles, deep = text on soft) */
+  --yellow:        #eab308;
+  --yellow-soft:   #fdf1bd;
+  --yellow-deep:   #854d0e;
+  --blue:          #3b82f6;
+  --green:         #22c55e;
+  --red:           #ef4444;
+
+  /* Neutrals */
+  /* Same palette as the landing page (see DESIGN.md): cool slate neutrals, ink as the accent */
+  --ink:        #1b2230;
+  --ink-2:      #3d4656;
+  --muted:      #5f6a7a;
+  --faint:      #8a94a3;
+  --line:       #dfe3e9;
+  --line-soft:  #eceff3;
+  --bg:         #f3f5f7;
+  --card:       #ffffff;
+
+  /* Accent for primary actions: the slate of the logo wordmark; the team colors carry all color */
+  --accent:       #3b4758;
+  --accent-hover: #2f3a49;
+  --accent-soft:  #e8ecf1;
+
+  --danger:      #dc2626;
+  --danger-soft: #fef2f2;
+
+  --radius-s: 8px;
+  --radius:   12px;
+  --radius-l: 14px;
+
+  --shadow-s: 0 1px 2px rgba(15, 23, 42, .05);
+  --shadow:   0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px -8px rgba(15, 23, 42, .12);
+  --shadow-l: 0 24px 60px -12px rgba(15, 23, 42, .25);
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  /* Headings: the landing page's face when the page loads it, otherwise the system font */
+  --display: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---- Base ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, .mono { font-family: var(--mono); font-size: 0.92em; }
+::selection { background: #dfe3e9; }
+
+/* ---- App shell ------------------------------------------------------------ */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 20px; height: 58px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 700; font-size: 15px; white-space: nowrap; flex-shrink: 0; }
+.brand:hover { text-decoration: none; }
+.brand-logo { height: 26px; width: auto; display: block; }   /* mark + wordmark, see assets/img */
+.brand small { font-weight: 500; color: var(--muted); }
+.topbar .spacer { flex: 1; }
+.topbar-context { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.topbar-context .badge { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+
+.page { max-width: 900px; margin: 0 auto; padding: 28px 20px 96px; }
+.page-head { margin: 6px 0 22px; }
+.page-head h1 { font-size: 24px; }
+.page-head p { color: var(--muted); margin-top: 4px; }
+
+/* ---- Cards ----------------------------------------------------------------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-l);
+  padding: 24px;
+}
+.card + .card { margin-top: 20px; }
+.card-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.card-title .hint { font-weight: 400; }
+.card-head { margin-bottom: 16px; }
+
+/* ---- Forms ------------------------------------------------------------------ */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.input, .textarea, .select {
+  width: 100%;
+  padding: 9px 12px;
+  font: inherit; font-size: 14px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(27, 34, 48, .14);
+}
+.textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.input[readonly] { background: #f8fafc; color: var(--ink-2); }
+.input.mono, .textarea.mono { font-family: var(--mono); font-size: 13px; }
+.input-group { display: flex; gap: 8px; }
+.input-group .input { flex: 1; min-width: 0; }
+
+/* Toggle switch */
+.switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch .track {
+  width: 40px; height: 24px; border-radius: 999px; background: #cbd5e1;
+  position: relative; transition: background .18s; flex-shrink: 0;
+}
+.switch .track::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  transition: transform .18s;
+}
+.switch input:checked + .track { background: var(--accent); }
+.switch input:checked + .track::after { transform: translateX(16px); }
+.switch input:focus-visible + .track { box-shadow: 0 0 0 3px rgba(27, 34, 48, .25); }
+.switch .switch-label { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+
+/* ---- Buttons ------------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 9px 16px;
+  font: inherit; font-size: 14px; font-weight: 600;
+  color: var(--ink);
+  background: var(--line-soft);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .14s, border-color .14s, color .14s, transform .05s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--line); text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-dark { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-dark:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-ghost { border-color: transparent; background: transparent; color: var(--muted); }
+.btn-ghost:hover { background: var(--line-soft); border-color: transparent; color: var(--ink-2); }
+.btn-danger { color: var(--danger); background: var(--danger-soft); }
+.btn-danger:hover { background: #fde2e2; }
+.btn-sm { padding: 6px 11px; font-size: 13px; border-radius: 7px; }
+.btn-lg { padding: 12px 22px; font-size: 15px; border-radius: 9px; }
+.btn-block { width: 100%; }
+
+/* ---- Badges / pills -------------------------------------------------------------- */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600;
+  padding: 3px 10px; border-radius: 6px;
+  background: var(--line-soft); color: var(--ink-2);
+}
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+.badge-accent { background: var(--accent-soft); color: var(--accent); }
+.badge-test { background: #fdf1bd; color: #854d0e; }
+
+/* ---- Tabs ---------------------------------------------------------------------- */
+.tabs {
+  display: inline-flex; gap: 4px;
+  background: var(--line-soft);
+  border-radius: 11px; padding: 4px;
+}
+.tabs button {
+  font: inherit; font-size: 13.5px; font-weight: 600;
+  border: none; background: transparent; color: var(--muted);
+  padding: 7px 16px; border-radius: 8px; cursor: pointer;
+  transition: background .14s, color .14s;
+}
+.tabs button:hover { color: var(--ink-2); }
+.tabs button.active { background: #fff; color: var(--ink); box-shadow: var(--shadow-s); }
+
+/* ---- Modal ------------------------------------------------------------------------ */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(27, 34, 48, .45);
+  padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+.modal {
+  width: 100%; max-width: 500px;
+  background: #fff; border-radius: 20px;
+  box-shadow: var(--shadow-l);
+  padding: 26px;
+  transform: translateY(10px) scale(.98);
+  transition: transform .18s;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.modal-backdrop.open .modal { transform: none; }
+.modal h2 { font-size: 18px; margin-bottom: 6px; }
+.modal .modal-sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+
+/* The credentials of a new study (studies page, draft copy in the settings): a
+   long name wraps between words, and the buttons stack on phones with the
+   main button first. */
+.cred-box .cred-value.cred-text { font-family: var(--font); word-break: normal; overflow-wrap: anywhere; }
+.row.cred-actions { justify-content: space-between; flex-wrap: wrap; } /* .row.… : wins over .row further down */
+@media (max-width: 480px) {
+  .row.cred-actions { flex-direction: column-reverse; align-items: stretch; }
+  .cred-actions > .row { flex-direction: column; align-items: stretch; }
+}
+
+/* Phones: the buttons at the end of a dialog stack, with the main button first, so long
+   labels such as "Open and add to my account" fit (.modal-actions also in settings.css,
+   .dialog-actions on the data page). */
+@media (max-width: 480px) {
+  .modal .modal-actions, .dialog .dialog-actions { flex-direction: column-reverse; align-items: stretch; }
+}
+
+/* ---- Toast -------------------------------------------------------------------------- */
+#toastHost {
+  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+  z-index: 200; display: flex; flex-direction: column; gap: 8px; align-items: center;
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink); color: #fff;
+  font-size: 13.5px; font-weight: 500;
+  padding: 10px 18px; border-radius: 10px;
+  box-shadow: var(--shadow);
+  animation: toast-in .18s ease-out;
+}
+.toast.error { background: var(--danger); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
+
+/* ==========================================================================
+   Chat components (used by aiTeam.php and data.php)
+   ========================================================================== */
+
+/* The participant's colors as a fallback set; teammates always carry theirs inline. */
+.avatar-human, .msg-human, .n-human {
+  --role-color: var(--yellow); --role-soft: var(--yellow-soft); --role-deep: var(--yellow-deep); --role-text: #fff;
+}
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12.5px; font-weight: 800;
+  color: var(--role-text, #fff);
+  background: var(--role-color, var(--faint));
+  flex-shrink: 0;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,.12);
+}
+
+/* A picture instead of the initial (the color stays as a ring while it loads) */
+.avatar.has-img {
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  color: transparent; box-shadow: 0 0 0 1px rgba(15, 23, 42, .08);
+}
+
+.msg { display: flex; gap: 10px; padding: 2px 0; margin-top: 14px; }
+.msg.grouped { margin-top: 3px; }
+.msg .avatar-slot { width: 34px; flex-shrink: 0; }
+.msg-body { max-width: min(76%, 560px); display: flex; flex-direction: column; align-items: flex-start; }
+.msg-meta { display: flex; align-items: baseline; gap: 8px; margin: 0 4px 3px; }
+.msg-name { font-size: 12.5px; font-weight: 700; color: var(--role-deep, var(--ink-2)); }
+.msg-time { font-size: 11px; color: var(--faint); }
+.msg-bubble {
+  padding: 8px 13px;
+  border-radius: 16px;
+  border-top-left-radius: 6px;
+  font-size: 14.5px;
+  white-space: pre-wrap; word-break: break-word;
+  animation: bubble-in .16s ease-out;
+  background: var(--role-soft, var(--line-soft));
+  color: var(--role-deep, var(--ink));
+}
+.msg.grouped .msg-bubble { border-radius: 16px; }
+@keyframes bubble-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* A note under a message (data page: "the director did not respond to this") */
+.msg-note {
+  font-size: 12px; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d;
+  border-radius: 8px; padding: 4px 9px; margin-top: 5px; max-width: 100%;
+}
+.msg-note i { margin-right: 4px; }
+
+/* Human (you) sits on the right */
+.msg-human { flex-direction: row-reverse; }
+.msg-human .msg-body { align-items: flex-end; }
+.msg-human .msg-bubble { border-top-left-radius: 16px; border-top-right-radius: 6px; }
+.msg-human.grouped .msg-bubble { border-top-right-radius: 16px; }
+
+/* Typing indicator */
+.typing-bubble { display: inline-flex; align-items: center; gap: 4px; min-height: 34px; }
+.typing-bubble .t-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor; opacity: .45;
+  animation: typing-bounce 1.2s infinite;
+}
+.typing-bubble .t-dot:nth-child(2) { animation-delay: .15s; }
+.typing-bubble .t-dot:nth-child(3) { animation-delay: .3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-4px); opacity: .9; }
+}
+.msg.typing-row { transition: opacity .35s; }
+.msg.typing-row.fading { opacity: 0; }
+
+/* Day/system divider */
+.chat-divider {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--faint); font-size: 12px; font-weight: 600;
+  margin: 18px 0 4px;
+}
+.chat-divider::before, .chat-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ==========================================================================
+   Formatted text (the instructions above the chat in aiTeam.php, and the
+   editor for them in settings.php). Both use these rules, so the editor shows
+   the text as participants see it. The format: includes/richtext.php.
+   ========================================================================== */
+.richtext { font-size: 15px; line-height: 1.5; color: var(--ink); overflow-wrap: break-word; overflow-wrap: anywhere; }
+.richtext p { margin: 0; }
+.richtext ul, .richtext ol { margin: 4px 0; padding-left: 26px; }
+.richtext li { margin: 2px 0; }
+.richtext li > ul, .richtext li > ol { margin: 2px 0 0; }
+.richtext strong, .richtext b { font-weight: 700; }
+
+/* ==========================================================================
+   Costs: the model line, three result tiles, the note under them, "Show
+   more", the tables of tokens and costs, and parts of a card with their own
+   heading. Shared by the costs card of the settings (Step 4) and the "Costs"
+   dialog of the data page, so that both look and read the same.
+   ========================================================================== */
+.cost-model { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: -4px 0 14px; font-size: 13px; }
+.cm-label { font-weight: 600; color: var(--ink-2); }
+.cm-name { padding: 3px 10px; border-radius: 6px; background: var(--accent-soft); color: var(--ink); font-size: 12.5px; font-weight: 600; }
+
+/* ---- Three results in a row: on the settings page per participant, the whole
+   study and spent so far (under the two fields, so that no result looks as if
+   it belonged to the field above it); on the data page the same three slots
+   for what was actually spent. */
+.cost-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.cost-stat { display: flex; flex-direction: column; padding: 14px 16px; border-radius: 12px; border: 1px solid transparent; background: var(--line-soft); }
+.cs-label { font-size: 12.5px; font-weight: 600; line-height: 1.35; color: var(--muted); }
+.cs-value {
+  margin: 4px 0 2px; font-size: 26px; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em;
+  color: var(--ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
+.cs-value small { font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--muted); }
+.cs-sub { font-size: 12.5px; line-height: 1.45; color: var(--ink-2); }
+/* The first two share a tint; the second, the number most people look for, is the stronger one. */
+.cs-per { background: var(--line-soft); border-color: var(--line-soft); }
+.cs-estimate { background: var(--accent-soft); border-color: #cfd6df; }
+.cs-per .cs-label, .cs-estimate .cs-label { color: var(--ink-2); }
+.cs-per .cs-value, .cs-estimate .cs-value { color: var(--ink); }
+/* Nothing to estimate yet: the texts of Step 3 are missing. */
+.cost-stat.is-missing { grid-column: span 2; background: #fffbeb; border: 1px dashed #fcd34d; }
+.cost-stat.is-missing .cs-label, .cost-stat.is-missing .cs-sub { color: #92400e; }
+.cost-stat.is-missing .cs-value { display: none; }
+.cost-stat.is-missing .cs-sub { margin-top: 4px; font-size: 13px; }
+.cost-stat .btn { align-self: flex-start; margin-top: 10px; }
+/* Said in the open: these are estimates. */
+.cost-note { display: flex; align-items: flex-start; gap: 8px; margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+.cost-note i { margin-top: 3px; font-size: 12px; color: var(--faint); }
+@media (max-width: 640px) {
+  .cost-results { grid-template-columns: 1fr; }
+  .cost-stat.is-missing { grid-column: auto; }
+}
+
+/* ---- "Show more": the prominent button in the middle of the card's bottom ---- */
+.show-more-row { display: flex; justify-content: center; margin-top: 18px; }
+.show-more-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 28px; border-radius: 8px; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 700; color: var(--accent);
+  background: var(--accent-soft); border: 1px solid transparent;
+  transition: background .14s, border-color .14s;
+}
+.show-more-btn:hover { background: #dfe3e9; }
+.show-more-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.show-more-btn i { font-size: 11px; transition: transform .18s; }
+.show-more-btn.open i { transform: rotate(180deg); }
+
+/* ---- Tables of tokens and costs, and the line under them ---- */
+.cost-table { width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 13.5px; }
+.cost-table th {
+  text-align: right; font-size: 12px; font-weight: 600;
+  color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--line);
+}
+.cost-table th:first-child, .cost-table td:first-child { text-align: left; padding-left: 0; }
+/* The number columns have the same width in every cost table. */
+.cost-table th:not(:first-child) { width: 17%; white-space: nowrap; }
+.cost-table td { text-align: right; padding: 9px 10px; border-bottom: 1px solid var(--line-soft); font-variant-numeric: tabular-nums; }
+.cost-table td .sub { display: block; font-size: 12px; color: var(--muted); font-weight: 400; }
+.cost-table tr.total td { font-weight: 700; border-bottom: none; border-top: 1px solid var(--line); }
+.cost-foot { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+/* Phones: the tables keep a readable first column and scroll sideways. */
+@media (max-width: 640px) { .cost-table { min-width: 500px; font-size: 13px; } }
+
+/* A part of a card with its own small heading, set off by a line */
+.card-part { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.part-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.part-lead { color: var(--muted); font-size: 13.5px; line-height: 1.55; margin: -4px 0 12px; max-width: 720px; }
+
+/* ---- Misc utilities --------------------------------------------------------- */
+.row { display: flex; align-items: center; gap: 10px; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mt-1 { margin-top: 6px; } .mt-2 { margin-top: 12px; } .mt-3 { margin-top: 20px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.hidden { display: none !important; }
+
+/* Spinner */
+.spinner {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 3px solid var(--line); border-top-color: var(--accent);
+  animation: spin .8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Scrollbars (webkit) */
+.scroll-slim::-webkit-scrollbar { width: 10px; }
+.scroll-slim::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+.scroll-slim::-webkit-scrollbar-thumb:hover { background: #94a3b8; border: 3px solid transparent; background-clip: content-box; }
