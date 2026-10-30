@@ -13,7 +13,10 @@
   <a href="SELF-HOSTING.md">See the self-hosting instructions</a>
 </p>
 
-<br>
+> [!NOTE]
+> **MAESTRO is hosted at [maestro-lab.science](https://maestro-lab.science) and ready to use
+> without installation.** This repository makes the source code of MAESTRO public, so that you
+> can check how MAESTRO works and run MAESTRO on your own server.
 
 ## Run controlled experiments on social dynamics in realistic group conversations.
 
